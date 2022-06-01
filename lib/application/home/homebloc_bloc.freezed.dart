@@ -272,7 +272,7 @@ class __$$_InitialCopyWithImpl<$Res> extends _$HomeblocStateCopyWithImpl<$Res>
 
 class _$_Initial with DiagnosticableTreeMixin implements _Initial {
   const _$_Initial(
-      {required final List<MainScreenData>? moviesList,
+      {final List<MainScreenData>? moviesList,
       required this.isLoading,
       required this.isError})
       : _moviesList = moviesList;
@@ -332,7 +332,7 @@ class _$_Initial with DiagnosticableTreeMixin implements _Initial {
 
 abstract class _Initial implements HomeblocState {
   const factory _Initial(
-      {required final List<MainScreenData>? moviesList,
+      {final List<MainScreenData>? moviesList,
       required final bool isLoading,
       required final bool isError}) = _$_Initial;
 

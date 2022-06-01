@@ -17,12 +17,10 @@ class ScreenSearch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      BlocProvider.of<SearchBloc>(context).add(Intialize());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      BlocProvider.of<SearchBloc>(context).add(const Intialize());
     });
-    // BlocProvider.of<SearchBloc>(context).add(Intialize());
-    // _controller.clear();
-
+   
     return Scaffold(
       body: SafeArea(
           child: Padding(

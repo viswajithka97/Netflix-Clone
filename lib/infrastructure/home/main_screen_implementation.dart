@@ -16,6 +16,8 @@ class HomeScreenImplementation implements HomeScreenService {
       final Response response = await Dio(BaseOptions()).get(
         ApiEndPoits.downloads,
       );
+      
+
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final result = MainScreenResp.fromJson(response.data);
@@ -30,5 +32,9 @@ class HomeScreenImplementation implements HomeScreenService {
       log(e.toString());
       return const Left(MainFailure.clientFailure());
     }
+
+    
+    
   }
+  
 }

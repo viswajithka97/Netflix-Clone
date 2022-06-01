@@ -1,11 +1,8 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:netflix/application/search/bloc/search_bloc.dart';
 import 'package:netflix/core/colors/colors.dart';
 import 'package:netflix/core/colors/common.dart';
-import 'package:netflix/presentation/new_and_hot/screen_new_and_hot.dart';
 import 'package:netflix/presentation/search/widgets/search_text_widget.dart';
 
 class SearchResultWidget extends StatelessWidget {
@@ -17,8 +14,8 @@ class SearchResultWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SearchTextWidget(title: "Movies & TV"),
-        Gap(
+        const SearchTextWidget(title: "Movies & TV"),
+        const Gap(
           H: 10,
         ),
         Expanded(
@@ -33,12 +30,12 @@ class SearchResultWidget extends StatelessWidget {
                 children: List.generate(20, (index) {
                   final movie = state.searchResultData[index];
 
-                  if (movie.posterPath!.isEmpty) {
+                  if (movie.posterPath==null) {
                     return const Center(
                       child: CircularProgressIndicator(color: greyColor),
                     );
                   } else if (state.isError) {
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                   } else {
                     return MainPosterCard(
                       imgUrl: imageBase + movie.posterPath!,

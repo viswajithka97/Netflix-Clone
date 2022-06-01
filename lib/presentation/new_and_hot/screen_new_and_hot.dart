@@ -103,7 +103,7 @@ class BuldComingSoon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       BlocProvider.of<HotandnewBloc>(context).add(const LoadDataInComingSoon());
     });
     return BlocBuilder<HotandnewBloc, HotandnewState>(
@@ -159,7 +159,7 @@ class BuildEveryOnesWatching extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       BlocProvider.of<HotandnewBloc>(context)
           .add(const LoadDataInEveryOnesWatching());
     });

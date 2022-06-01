@@ -4,13 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:netflix/application/home/homebloc_bloc.dart';
 import 'package:netflix/core/colors/colors.dart';
 import 'package:netflix/core/colors/common.dart';
+import 'package:netflix/domain/home/model/main_screen/main_screen.dart';
 import 'package:netflix/presentation/home/widgets/background_card.dart';
-import 'package:netflix/presentation/search/widgets/search_result.dart';
+import 'package:netflix/presentation/home/widgets/categories.dart';
+import 'package:netflix/presentation/home/widgets/main_card1.dart';
+import 'package:netflix/presentation/search/widgets/search_text_widget.dart';
 import 'package:netflix/presentation/widgets/main_title_cad.dart';
 import 'package:netflix/presentation/widgets/number_main_card.dart';
-
-final bigPosterImage =
-    "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/YksR65as1ppF2N48TJAh2PLamX.jpg";
 
 ValueNotifier<bool> scrollNotifier = ValueNotifier(true);
 
@@ -19,7 +19,7 @@ class ScreenHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       BlocProvider.of<HomeblocBloc>(context)
           .add(const HomeblocEvent.loadTrendingMovies());
     });
@@ -40,9 +40,6 @@ class ScreenHome extends StatelessWidget {
                   } else if (direction == ScrollDirection.forward) {
                     scrollNotifier.value = true;
                   }
-
-                  // print(direction);
-
                   return true;
                 }),
                 child: Stack(
@@ -50,7 +47,11 @@ class ScreenHome extends StatelessWidget {
                     BlocBuilder<HomeblocBloc, HomeblocState>(
                       builder: (context, state) {
                         final currentMovie = state;
-
+                        List<MainScreenData> movieList = [];
+                        var newlist = state.moviesList;
+                        movieList.addAll(newlist!);
+                        List<MainScreenData> listreversed =
+                            movieList.reversed.toList();
                         if (state.isLoading) {
                           return const Center(
                             child: CircularProgressIndicator(color: greyColor),
@@ -73,77 +74,46 @@ class ScreenHome extends StatelessWidget {
                           return ListView(
                             children: [
                               BackGroundCard(state: currentMovie),
-                              Gap(
-                                H: 10,
-                              ),
-
-                              MainTitleCard(
-                                title: "Trending Now",
-                                poster: samplePosters[1],
-                              ),
                               const Gap(
                                 H: 10,
                               ),
+                              const SearchTextWidget(
+                                  title: 'Continue Watching'),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              const MainCard1(),
                               MainTitleCard(
                                 title: "Popular on Netflix",
-                                poster: samplePosters[0],
-                              ),
-
-                              const Gap(
-                                H: 10,
-                              ),
-                              MainTitleCard(
-                                title: "TV Shows Based on Books",
-                                poster: samplePosters[2],
+                                api: movieList,
                               ),
                               const Gap(
                                 H: 10,
                               ),
                               MainTitleCard(
                                 title: "New Releses",
-                                poster: samplePosters[0],
+                                api: listreversed,
                               ),
                               const Gap(
                                 H: 10,
                               ),
-                              MainTitleCard(
-                                title: "TV Dramas",
-                                poster: samplePosters[1],
-                              ),
-                              const Gap(
-                                H: 10,
-                              ),
-                              // MainTitleCard(
-                              //   title: "Top 10 in India Today",
-                              //   poster: samplePosters[2],
-                              // ),
-                              MainNumberCard(
+                              const MainNumberCard(
                                 title: "Top 10 in India Today",
-                                poster: samplePosters[2],
-                              ),
-
-                              const Gap(
-                                H: 10,
-                              ),
-                              MainTitleCard(
-                                title: "US Movies",
-                                poster: samplePosters[0],
                               ),
                               const Gap(
                                 H: 10,
                               ),
                               MainTitleCard(
-                                title: "Hindi Movies and TV",
-                                poster: samplePosters[1],
+                                title: "Tense Dramas",
+                                api: listreversed,
                               ),
-                              // MainTitleCard(
-                              //   title: "",
-                              //   poster: samplePosters[2],
-                              // ),
-                              // MainTitleCard(
-                              //   title: "",
-                              //   poster: samplePosters[0],
-                              // ),
+                              const Gap(
+                                H: 10,
+                              ),
+                              MainTitleCard(
+                                title: "South Indian Cinema",
+                                api: movieList,
+                              ),
                             ],
                           );
                         }
@@ -152,8 +122,7 @@ class ScreenHome extends StatelessWidget {
                     scrollNotifier.value
                         ? Container(
                             width: double.infinity,
-                            height: 80,
-                            // color: Colors.black.withOpacity(0.4),
+                            height: 100,
                             decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                     begin: Alignment.topCenter,
@@ -215,11 +184,20 @@ class ScreenHome extends StatelessWidget {
                                           style: TextStyle(
                                               fontWeight: FontWeight.w500)),
                                       LimitedBox(
-                                        child: Row(children: const [
-                                          Text("Categories",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w500)),
-                                          Icon(
+                                        child: Row(children: [
+                                          TextButton(
+                                            onPressed: () {
+                                              showDialog(
+                                                  context: context,
+                                                  builder: (ctx) =>
+                                                      const Categories());
+                                            },
+                                            child: const Text("Categories",
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.white)),
+                                          ),
+                                          const Icon(
                                             Icons.arrow_drop_down_rounded,
                                             color: whiteColor,
                                           )

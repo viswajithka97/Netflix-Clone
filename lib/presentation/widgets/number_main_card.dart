@@ -8,10 +8,10 @@ import 'package:netflix/core/strings.dart';
 import 'package:netflix/presentation/search/widgets/search_text_widget.dart';
 
 class MainNumberCard extends StatelessWidget {
-  const MainNumberCard({Key? key, required this.title, required this.poster})
+  const MainNumberCard({Key? key, required this.title,})
       : super(key: key);
   final String title;
-  final String poster;
+  
   
 
   @override

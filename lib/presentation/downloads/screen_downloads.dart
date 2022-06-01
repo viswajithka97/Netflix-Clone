@@ -23,7 +23,7 @@ class ScreenDownloads extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    // final size = MediaQuery.of(context).size;
 
     return Scaffold(
         appBar: const PreferredSize(
@@ -57,7 +57,7 @@ class _SectionTwo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const imageBase = "https://image.tmdb.org/t/p/w500";
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       BlocProvider.of<DownloadsBloc>(context)
           .add(const DownloadsEvent.getDownloadsImage());
     });

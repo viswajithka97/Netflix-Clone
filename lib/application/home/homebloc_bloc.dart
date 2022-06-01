@@ -30,8 +30,16 @@ class HomeblocBloc extends Bloc<HomeblocEvent, HomeblocState> {
           isError: true,
         );
       }, (succes) {
+        var newlist = succes.results!;
+        List<MainScreenData> movieList = [];
+        // var newlist = state.moviesList!;
+
+        movieList.addAll(newlist);
+
+        movieList.shuffle();
+
         return HomeblocState(
-          moviesList: succes.results,
+          moviesList: movieList,
           isLoading: false,
           isError: false,
         );
@@ -39,5 +47,6 @@ class HomeblocBloc extends Bloc<HomeblocEvent, HomeblocState> {
 
       emit(newState);
     });
+
   }
 }

@@ -9,7 +9,7 @@ class SearchTextWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       title,
-      style: TextStyle(
+      style: const TextStyle(
         color: whiteColor,
         fontSize: 20,
         fontWeight: FontWeight.bold,

@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:netflix/application/home/homebloc_bloc.dart';
 import 'package:netflix/core/colors/colors.dart';
 import 'package:netflix/core/colors/common.dart';
-import 'package:netflix/domain/home/model/main_screen/main_screen.dart';
 import 'package:netflix/presentation/home/widgets/background_card.dart';
 import 'package:netflix/presentation/home/widgets/categories.dart';
 import 'package:netflix/presentation/home/widgets/main_card1.dart';
@@ -19,11 +16,6 @@ class ScreenHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      BlocProvider.of<HomeblocBloc>(context)
-          .add(const HomeblocEvent.loadTrendingMovies());
-    });
-
     return Scaffold(
       body: ValueListenableBuilder(
         valueListenable: scrollNotifier,
@@ -44,80 +36,45 @@ class ScreenHome extends StatelessWidget {
                 }),
                 child: Stack(
                   children: [
-                    BlocBuilder<HomeblocBloc, HomeblocState>(
-                      builder: (context, state) {
-                        final currentMovie = state;
-                        List<MainScreenData> movieList = [];
-                        var newlist = state.moviesList;
-                        movieList.addAll(newlist!);
-                        List<MainScreenData> listreversed =
-                            movieList.reversed.toList();
-                        if (state.isLoading) {
-                          return const Center(
-                            child: CircularProgressIndicator(color: greyColor),
-                          );
-                        } else if (state.isError) {
-                          return const Center(
-                            child: Text(
-                              "Something went wrong",
-                              style: TextStyle(color: greyColor),
-                            ),
-                          );
-                        } else if (state.moviesList!.isEmpty) {
-                          return const Center(
-                            child: Text(
-                              "Something Occured while fetching Data",
-                              style: TextStyle(color: greyColor),
-                            ),
-                          );
-                        } else {
-                          return ListView(
-                            children: [
-                              BackGroundCard(state: currentMovie),
-                              const Gap(
-                                H: 10,
-                              ),
-                              const SearchTextWidget(
-                                  title: 'Continue Watching'),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              const MainCard1(),
-                              MainTitleCard(
-                                title: "Popular on Netflix",
-                                api: movieList,
-                              ),
-                              const Gap(
-                                H: 10,
-                              ),
-                              MainTitleCard(
-                                title: "New Releses",
-                                api: listreversed,
-                              ),
-                              const Gap(
-                                H: 10,
-                              ),
-                              const MainNumberCard(
-                                title: "Top 10 in India Today",
-                              ),
-                              const Gap(
-                                H: 10,
-                              ),
-                              MainTitleCard(
-                                title: "Tense Dramas",
-                                api: listreversed,
-                              ),
-                              const Gap(
-                                H: 10,
-                              ),
-                              MainTitleCard(
-                                title: "South Indian Cinema",
-                                api: movieList,
-                              ),
-                            ],
-                          );
-                        }
-                      },
+                    ListView(
+                      children: const [
+                        BackGroundCard(),
+                        Gap(
+                          H: 10,
+                        ),
+                        SearchTextWidget(title: 'Continue Watching'),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        MainCard1(),
+                        MainTitleCard(
+                          title: "Popular on Netflix",
+                        ),
+                        Gap(
+                          H: 10,
+                        ),
+                        MainTitleCard(
+                          title: "New Releses",
+                        ),
+                        Gap(
+                          H: 10,
+                        ),
+                        MainNumberCard(
+                          title: "Top 10 in India Today",
+                        ),
+                        Gap(
+                          H: 10,
+                        ),
+                        MainTitleCard(
+                          title: "Tense Dramas",
+                        ),
+                        Gap(
+                          H: 10,
+                        ),
+                        MainTitleCard(
+                          title: "South Indian Cinema",
+                        ),
+                      ],
                     ),
                     scrollNotifier.value
                         ? Container(

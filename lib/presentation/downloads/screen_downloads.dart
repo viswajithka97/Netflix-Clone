@@ -1,8 +1,6 @@
-// ignore_for_file: prefer_typing_uninitialized_variables
+// ignore_for_file: prefer_typing_uninitialized_variables, must_be_immutable
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:netflix/application/downloads/downloads_bloc.dart';
 import 'package:netflix/core/colors/colors.dart';
 import 'package:netflix/core/colors/common.dart';
 import 'package:netflix/presentation/widgets/app_bar_widget.dart';
@@ -48,19 +46,19 @@ class _SectionTwo extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  // final samplePosters = [
-  //   "https://www.themoviedb.org/t/p/w220_and_h330_face/nj5HmHRZsrYQEYYXyAusFv35erP.jpg",
-  //   "https://www.themoviedb.org/t/p/w220_and_h330_face/lJA2RCMfsWoskqlQhXPSLFQGXEJ.jpg",
-  //   "https://www.themoviedb.org/t/p/w220_and_h330_face/bcCBq9N1EMo3daNIjWJ8kYvrQm6.jpg"
-  // ];
+  final samplePosters = [
+    "https://www.themoviedb.org/t/p/w220_and_h330_face/nj5HmHRZsrYQEYYXyAusFv35erP.jpg",
+    "https://www.themoviedb.org/t/p/w220_and_h330_face/lJA2RCMfsWoskqlQhXPSLFQGXEJ.jpg",
+    "https://www.themoviedb.org/t/p/w220_and_h330_face/bcCBq9N1EMo3daNIjWJ8kYvrQm6.jpg"
+  ];
 
+  String imageBase = "https://image.tmdb.org/t/p/w500";
   @override
   Widget build(BuildContext context) {
-    const imageBase = "https://image.tmdb.org/t/p/w500";
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      BlocProvider.of<DownloadsBloc>(context)
-          .add(const DownloadsEvent.getDownloadsImage());
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   BlocProvider.of<DownloadsBloc>(context)
+    //       .add(const DownloadsEvent.getDownloadsImage());
+    // });
     // BlocProvider.of<DownloadsBloc>(context)
     //     .add(const DownloadsEvent.getDownloadsImage());
 
@@ -92,51 +90,42 @@ class _SectionTwo extends StatelessWidget {
         const Gap(
           H: 20,
         ),
-        BlocBuilder<DownloadsBloc, DownloadsState>(
-          builder: (context, state) {
-            return SizedBox(
-              height: 400,
-              width: size.width,
-              // color: whiteColor,
-              child: state.isLoading == true || state.downloads.isEmpty
-                  ? const Center(
-                      child: CircularProgressIndicator(
-                      color: greyColor,
-                    ))
-                  : Stack(alignment: Alignment.center, children: [
-                      Center(
-                        child: CircleAvatar(
-                          radius: size.width * 0.4,
-                          backgroundColor: greyColor,
-                        ),
-                      ),
-                      DownloadsImageWidget(
-                        img: "${imageBase + state.downloads[1].posterPath}",
-                        margin: const EdgeInsets.only(
-                          right: 150,
-                        ),
-                        angle: -15,
-                      ),
-                      DownloadsImageWidget(
-                        img: "${imageBase + state.downloads[0].posterPath}",
-                        margin: const EdgeInsets.only(
-                          left: 150,
-                        ),
-                        angle: 15,
-                      ),
-                      DownloadsImageWidget(
-                        img: "${imageBase + state.downloads[2].posterPath}",
-                        margin: const EdgeInsets.only(
-                          right: 0,
-                          top: 10,
-                        ),
-                        angle: 0,
-                        imgHeight: 0.6,
-                        imgWidth: 0.4,
-                      ),
-                    ]),
-            );
-          },
+        SizedBox(
+          height: 400,
+          width: size.width,
+          // color: whiteColor,
+          child: Stack(alignment: Alignment.center, children: [
+            Center(
+              child: CircleAvatar(
+                radius: size.width * 0.4,
+                backgroundColor: greyColor,
+              ),
+            ),
+            DownloadsImageWidget(
+              img: samplePosters[0],
+              margin: const EdgeInsets.only(
+                right: 150,
+              ),
+              angle: -15,
+            ),
+            DownloadsImageWidget(
+              img: samplePosters[1],
+              margin: const EdgeInsets.only(
+                left: 150,
+              ),
+              angle: 15,
+            ),
+            DownloadsImageWidget(
+              img: samplePosters[2],
+              margin: const EdgeInsets.only(
+                right: 0,
+                top: 10,
+              ),
+              angle: 0,
+              imgHeight: 0.6,
+              imgWidth: 0.4,
+            ),
+          ]),
         ),
       ],
     );
@@ -153,8 +142,8 @@ class _SectionThree extends StatelessWidget {
         SizedBox(
           width: double.infinity,
           child: MaterialButton(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
             color: buttonColor,
             onPressed: () {},
             child: const Padding(
@@ -174,8 +163,8 @@ class _SectionThree extends StatelessWidget {
         SizedBox(
           width: double.infinity,
           child: MaterialButton(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
             color: whiteColor,
             onPressed: () {},
             child: const Padding(
@@ -202,10 +191,10 @@ class _SmartDownloads extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return const Row(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
-      children: const [
+      children: [
         Icon(
           Icons.settings_outlined,
           color: whiteColor,

@@ -1,21 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:netflix/core/colors/colors.dart';
 import 'package:netflix/core/colors/common.dart';
-import 'package:netflix/core/strings.dart';
-import 'package:netflix/domain/home/model/main_screen/main_screen.dart';
 
 class Detailedscreen extends StatelessWidget {
-  const Detailedscreen({Key? key, required this.movieData, this.index})
-      : super(key: key);
+  const Detailedscreen({Key? key, this.index}) : super(key: key);
 
-  final MainScreenData movieData;
   final index;
 
   @override
   Widget build(BuildContext context) {
-    final movieName = movieData.originalTitle;
-    final releasYear = movieData.releaseDate;
-    final discription = movieData.overview;
+    const releasYear = "";
 
     return Scaffold(
       body: SafeArea(
@@ -26,13 +20,11 @@ class Detailedscreen extends StatelessWidget {
               Container(
                 height: 250,
                 width: double.infinity,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: NetworkImage(
-                            imageBase + movieData.backdropPath.toString()))),
+                        fit: BoxFit.cover, image: NetworkImage(""))),
               ),
-              Container(
+              SizedBox(
                 height: 250,
                 width: double.infinity,
                 // color: Colors.black,
@@ -113,7 +105,7 @@ class Detailedscreen extends StatelessWidget {
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               const Text(
                 "MovieName",
-                style: const TextStyle(
+                style: TextStyle(
                     color: whiteColor,
                     fontSize: 20,
                     fontWeight: FontWeight.w700),
@@ -133,7 +125,7 @@ class Detailedscreen extends StatelessWidget {
               ),
               Text(
                 "#${index + 1} in Movies Today ",
-                style: TextStyle(
+                style: const TextStyle(
                     color: whiteColor,
                     fontSize: 19,
                     fontWeight: FontWeight.w700),
@@ -147,9 +139,9 @@ class Detailedscreen extends StatelessWidget {
                     foregroundColor: MaterialStateProperty.all(blackColor),
                   ),
                   onPressed: () {},
-                  child: Row(
+                  child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
+                    children: [
                       Icon(
                         Icons.play_arrow_rounded,
                         color: blackColor,
@@ -174,9 +166,9 @@ class Detailedscreen extends StatelessWidget {
                     foregroundColor: MaterialStateProperty.all(whiteColor),
                   ),
                   onPressed: () {},
-                  child: Row(
+                  child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
+                    children: [
                       Icon(
                         Icons.download_sharp,
                         color: whiteColor,
@@ -192,22 +184,22 @@ class Detailedscreen extends StatelessWidget {
                       ),
                     ],
                   )),
-              Gap(
+              const Gap(
                 H: 10,
               ),
               Text(
-                discription.toString(),
+                "".toString(),
                 maxLines: 5,
-                style: TextStyle(
+                style: const TextStyle(
                   height: 1.3,
                   color: whiteColor,
                   fontSize: 15,
                 ),
               ),
-              Gap(
+              const Gap(
                 H: 20,
               ),
-              Container(
+              const SizedBox(
                 width: 250,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -249,14 +241,14 @@ class _HomeCustomButtonWidget extends StatelessWidget {
         Icon(
           icon,
           size: 35,
-          color: Color.fromARGB(255, 255, 255, 255),
+          color: const Color.fromARGB(255, 255, 255, 255),
         ),
-        Gap(
+        const Gap(
           H: 5,
         ),
         Text(
           title,
-          style: TextStyle(color: Color.fromARGB(255, 187, 187, 187)),
+          style: const TextStyle(color: Color.fromARGB(255, 187, 187, 187)),
         )
       ],
     );

@@ -1,84 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:netflix/application/fastLaugh/fastlaugh_bloc.dart';
 import 'package:netflix/core/colors/colors.dart';
 import 'package:netflix/core/colors/common.dart';
 import 'package:netflix/core/strings.dart';
-import 'package:netflix/domain/downloads/models/downloads.dart';
-import 'package:share_plus/share_plus.dart';
+// import 'package:share_plus/share_plus.dart';
 import 'package:video_player/video_player.dart';
+
+const videoLIst = [];
 
 class ScreenFastLaugh extends StatelessWidget {
   const ScreenFastLaugh({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      BlocProvider.of<FastlaughBloc>(context).add(const Initialize());
-    });
-
     return Scaffold(
-      body: SafeArea(child: BlocBuilder<FastlaughBloc, FastlaughState>(
-        builder: (context, state) {
-          if (state.isLoading) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: const [
-                  CircularProgressIndicator(
-                    color: greyColor,
-                  ),
-                  Gap(
-                    H: 20,
-                  ),
-                  Text(
-                    "Loading . . .",
-                    style: TextStyle(color: greyColor),
-                  ),
-                ],
-              ),
-            );
-          } else if (state.isError) {
-            return const Center(
-              child: Text("Something went wrong"),
-            );
-          } else {
-            return PageView(
-              scrollDirection: Axis.vertical,
-              children: List.generate(
-                state.videosList.length,
-                (index) => VideoListItemsInheritedWidget(
-                    widget: VideoListItems(
-                      index: index,
-                      key: Key(index.toString()),
-                    ),
-                    movieData: state.videosList[index]),
-              ),
-            );
-          }
-        },
+      body: SafeArea(
+          child: PageView(
+        scrollDirection: Axis.vertical,
+        children: List.generate(
+          videoLIst.length,
+          (index) => VideoListItems(
+            index: index,
+            key: Key(index.toString()),
+          ),
+        ),
       )),
     );
-  }
-}
-
-class VideoListItemsInheritedWidget extends InheritedWidget {
-  final Widget widget;
-  final Downloads movieData;
-
-  VideoListItemsInheritedWidget(
-      {Key? key, required this.widget, required this.movieData})
-      : super(key: key, child: widget);
-
-  @override
-  bool updateShouldNotify(covariant VideoListItemsInheritedWidget oldWidget) {
-    return oldWidget.movieData != movieData;
-  }
-
-  static VideoListItemsInheritedWidget? of(BuildContext context) {
-    return context
-        .dependOnInheritedWidgetOfExactType<VideoListItemsInheritedWidget>();
   }
 }
 
@@ -88,16 +34,14 @@ class VideoListItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final vidoeUrl = dummyVideoUrls[index % dummyVideoUrls.length];
-    final posterPath =
-        VideoListItemsInheritedWidget.of(context)?.movieData.posterPath;
+    const posterPath = "";
     return Stack(
       // alignment: Alignment.bottomt,
       children: [
         Container(
           // color: Colors.accents[index],
           // decoration: BoxDecoration(image: ),
-          child: FastlaughVideoPlayer(url: vidoeUrl, onStateChanged: (bool) {}),
+          child: FastlaughVideoPlayer(url: "", onStateChanged: (bool) {}),
         ),
         Align(
           alignment: Alignment.bottomCenter,
@@ -123,37 +67,19 @@ class VideoListItems extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      CircleAvatar(
+                      const CircleAvatar(
                         radius: 25,
-                        backgroundImage: posterPath == null
+                        backgroundImage: posterPath == ""
                             ? null
                             : NetworkImage(imageBase + posterPath),
                       ),
                       const Gap(
                         H: 20,
                       ),
-                      BlocBuilder<FastlaughBloc, FastlaughState>(
-                        builder: (context, state) {
-                          // final _index = index;
-
-                          // return GestureDetector(
-                          //   onTap: () {
-                          //     BlocProvider.of<FastlaughBloc>(context)
-                          //         .add(UnLikeVideo(id: index));
-                          //   },
-                          //   child: const VideoActionIconWidget(
-                          //       title: "LIKED", icon: Icons.favorite),
-                          // );
-
-                          return GestureDetector(
-                            onTap: () {
-                              BlocProvider.of<FastlaughBloc>(context)
-                                  .add(LikeVideo(id: index));
-                            },
-                            child: const VideoActionIconWidget(
-                                title: "LOL", icon: Icons.emoji_emotions),
-                          );
-                        },
+                      GestureDetector(
+                        onTap: () {},
+                        child: const VideoActionIconWidget(
+                            title: "LOL", icon: Icons.emoji_emotions),
                       ),
                       const Gap(
                         H: 30,
@@ -165,14 +91,8 @@ class VideoListItems extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                          final movieName =
-                              VideoListItemsInheritedWidget.of(context)
-                                  ?.movieData
-                                  .title;
-                          if (movieName != null) {
-                            Share.share(movieName);
-                          }
-                          ;
+                          // const movieName = "";
+                          // Share.share(movieName);
                         },
                         child: const VideoActionIconWidget(
                             title: "Share", icon: Icons.share),
@@ -266,7 +186,7 @@ class _FastlaughVideoPlayerState extends State<FastlaughVideoPlayer> {
               ? AspectRatio(
                   aspectRatio: _videoPlayerController.value.aspectRatio,
                   child: VideoPlayer(_videoPlayerController))
-              : Center(
+              : const Center(
                   child: CircularProgressIndicator(color: greyColor),
                 ),
         ),

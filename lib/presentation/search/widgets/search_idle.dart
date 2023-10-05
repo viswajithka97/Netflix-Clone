@@ -1,59 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:netflix/application/search/bloc/search_bloc.dart';
 import 'package:netflix/core/colors/colors.dart';
 import 'package:netflix/core/colors/common.dart';
 import 'package:netflix/presentation/search/widgets/search_text_widget.dart';
+
+const IdleList = [];
 
 class SearchIdleWidget extends StatelessWidget {
   const SearchIdleWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SearchTextWidget(
-          title: "Top Searches",
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      const SearchTextWidget(
+        title: "Top Searches",
+      ),
+      const Gap(
+        H: 10,
+      ),
+      Expanded(
+          child: ListView.separated(
+        shrinkWrap: true,
+        itemBuilder: (context, index) => const TopSearchItemTile(
+          imgUrl: "",
+          title: "",
         ),
-        Gap(
+        separatorBuilder: (context, index) => const Gap(
           H: 10,
         ),
-        Expanded(
-          child: BlocBuilder<SearchBloc, SearchState>(
-            builder: (context, state) {
-              if (state.isLoading) {
-                return Center(
-                  child: CircularProgressIndicator(
-                    color: greyColor,
-                  ),
-                );
-              } else if (state.isError) {
-                return Text("Error While Getting Data Occured");
-              } else if (state.IdleList.isEmpty) {
-                return Center(
-                  child: CircularProgressIndicator(
-                    color: greyColor,
-                  ),
-                );
-              }
-
-              return ListView.separated(
-                shrinkWrap: true,
-                itemBuilder: (context, index) => TopSearchItemTile(
-                  imgUrl: state.IdleList[index].verticalImage,
-                  title: state.IdleList[index].title,
-                ),
-                separatorBuilder: (context, index) => const Gap(
-                  H: 10,
-                ),
-                itemCount: state.IdleList.length,
-              );
-            },
-          ),
-        ),
-      ],
-    );
+        itemCount: IdleList.length,
+      )),
+    ]);
   }
 }
 

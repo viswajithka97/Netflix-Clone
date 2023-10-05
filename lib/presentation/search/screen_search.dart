@@ -1,26 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:netflix/application/search/bloc/search_bloc.dart';
 import 'package:netflix/core/colors/colors.dart';
 import 'package:netflix/core/colors/common.dart';
-import 'package:netflix/domain/core/debounce.dart';
 import 'package:netflix/presentation/search/widgets/search_idle.dart';
-import 'package:netflix/presentation/search/widgets/search_result.dart';
 
 TextEditingController _controller = TextEditingController();
 
 class ScreenSearch extends StatelessWidget {
-  ScreenSearch({Key? key}) : super(key: key);
-
-  final Debouncer _debouncer = Debouncer(milliseconds: 500);
+  const ScreenSearch({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      BlocProvider.of<SearchBloc>(context).add(const Intialize());
-    });
-   
     return Scaffold(
       body: SafeArea(
           child: Padding(
@@ -33,13 +23,7 @@ class ScreenSearch extends StatelessWidget {
                 Expanded(
                   child: CupertinoTextField(
                     controller: _controller,
-                    onChanged: (value) {
-                      if (value.isEmpty) return;
-                      _debouncer.run(() {
-                        BlocProvider.of<SearchBloc>(context)
-                            .add(SearchMovie(query: value.toString()));
-                      });
-                    },
+                    onChanged: (value) {},
                     placeholder: "Search",
                     placeholderStyle:
                         const TextStyle(color: greyTextColor, fontSize: 18),
@@ -70,16 +54,17 @@ class ScreenSearch extends StatelessWidget {
             const Gap(
               H: 10,
             ),
-            Expanded(
-              child: BlocBuilder<SearchBloc, SearchState>(
-                builder: (context, state) {
-                  if (state.searchResultData.isEmpty) {
-                    return const SearchIdleWidget();
-                  } else {
-                    return const SearchResultWidget();
-                  }
-                },
-              ),
+            const Expanded(
+              child: SearchIdleWidget(),
+              // child: BlocBuilder<SearchBloc, SearchState>(
+              //   builder: (context, state) {
+              //     if (state.searchResultData.isEmpty) {
+              //       return const SearchIdleWidget();
+              //     } else {
+              //       return const SearchResultWidget();
+              //     }
+              //   },
+              // ),
             )
           ],
         ),
